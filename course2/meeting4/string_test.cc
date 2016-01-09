@@ -105,7 +105,7 @@ int main()
 	// TODO after implementing your string class, run the selected functions for your type here
   basic_test<MyString>();
 	basic_operators<MyString>();
-	//indexing_operator<MyString>();
+	indexing_operator<MyString>();
 	//stream_output_operator<MyString>();
 	//concatenation_operator<MyString>();
   std::cout << "MyString tests passed" << std::endl;

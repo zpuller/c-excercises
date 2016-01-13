@@ -10,21 +10,16 @@ public:
 
   MyString(const char* str)
   {
-    for (int i = 0; str[i] != '\0'; i++)
-      mLength++;
-
+    mLength = std::strlen(str);
     mData = std::unique_ptr<char[]>(new char[mLength + 1]);
-    for (int i = 0; str[i] != '\0'; i++)
-      mData[i] = str[i];
-
-    mData[mLength] = '\0';
+    std::strcpy(data(), str);
   }
 
   MyString(const MyString& other)
   {
     mLength = other.length();
     mData = std::unique_ptr<char[]>(new char[mLength + 1]);
-    std::copy(other.data(), other.data() + mLength + 1, mData.get());
+    std::strcpy(data(), other.data());
   }
 
   MyString& operator=(const MyString& other)
@@ -33,7 +28,7 @@ public:
     {
       mLength = other.length();
       mData.reset(new char[mLength + 1]);
-      std::copy(other.data(), other.data() + mLength + 1, mData.get());
+      std::strcpy(data(), other.data());
     }
 
     return *this;
@@ -41,33 +36,8 @@ public:
 
   char& operator[](std::size_t i) { return mData.get()[i]; }
 
-  bool operator==(MyString& other) 
-  { 
-    if (mLength != other.length())
-      return false;
-
-    for (int i = 0; i < mLength; i++)
-    {
-      if (mData[i] != other.data()[i])
-        return false;
-    }
-
-    return true;
-  }
-
-  bool operator==(const char* other) 
-  {
-    int i = 0;
-    for (; i < mLength; i++)
-      if (mData[i] != other[i])
-        return false;
-
-    if (other[i] != '\0')
-      return false;
-
-    return true;
-  }
-
+  bool operator==(MyString& other) { return !std::strcmp(data(), other.data()); }
+  bool operator==(const char* other) { return !std::strcmp(data(), other); }
   bool operator!=(MyString& other) { return !(*this == other); }
   bool operator!=(const char* other) { return !(*this == other); }
 

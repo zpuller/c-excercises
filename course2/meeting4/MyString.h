@@ -57,7 +57,7 @@ public:
   bool operator==(const char* other) 
   {
     int i = 0;
-    for (; mData[i] != '\0'; i++)
+    for (; i < mLength; i++)
       if (mData[i] != other[i])
         return false;
 

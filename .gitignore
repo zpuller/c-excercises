@@ -5,6 +5,7 @@ build_
 *.lo
 *.o
 *.obj
+*.dSYM
 
 # Precompiled Headers
 *.gch
@@ -25,6 +26,7 @@ build_
 *.lib
 
 # Executables
+string_test
 *.exe
 *.out
 *.app

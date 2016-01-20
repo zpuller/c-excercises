@@ -26,8 +26,9 @@ public:
   {
     if (this != &other)
     {
+      if (other.length() > mLength)
+        mData.reset(new char[other.length() + 1]);
       mLength = other.length();
-      mData.reset(new char[mLength + 1]);
       std::strcpy(data(), other.data());
     }
 

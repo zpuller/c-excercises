@@ -35,14 +35,29 @@ public:
     return *this;
   }
 
+  MyString(MyString&& other) noexcept
+  {
+    mData.swap(other.mData);
+    mLength = other.mLength;
+  }
+
+  MyString& operator=(MyString&& other)
+  {
+    mData.swap(other.mData);
+    mLength = other.mLength;
+
+    return *this;
+  }
+
+  const char& operator[](std::size_t i) const { return mData.get()[i]; }
   char& operator[](std::size_t i) { return mData.get()[i]; }
 
-  bool operator==(MyString& other) { return !std::strcmp(data(), other.data()); }
-  bool operator==(const char* other) { return !std::strcmp(data(), other); }
-  bool operator!=(MyString& other) { return !(*this == other); }
-  bool operator!=(const char* other) { return !(*this == other); }
+  bool operator==(const MyString& other) const { return !std::strcmp(data(), other.data()); }
+  bool operator==(const char* other) const { return !std::strcmp(data(), other); }
+  bool operator!=(const MyString& other) const { return !(*this == other); }
+  bool operator!=(const char* other) const { return !(*this == other); }
 
-  bool operator<(MyString& other)
+  bool operator<(const MyString& other) const
   {
     for (int i = 0; i < mLength; i++)
     {
@@ -56,13 +71,13 @@ public:
     return (mLength < other.length());
   }
 
-  friend std::ostream& operator<<(std::ostream& os, MyString& string)
+  friend std::ostream& operator<<(std::ostream& os, const MyString& string) 
   {
     os << string.data();
     return os;
   }
 
-  MyString operator+(MyString& other)
+  MyString operator+(const MyString& other) const
   {
     char oString[mLength + other.mLength + 1];
     std::strcpy(oString, data());
@@ -70,7 +85,7 @@ public:
     return MyString(oString);
   }
 
-  MyString& operator+=(MyString& other)
+  MyString& operator+=(const MyString& other)
   {
     char oString[mLength + other.mLength + 1];
     std::strcpy(oString, data());

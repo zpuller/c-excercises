@@ -40,8 +40,8 @@ public:
   }
   std::size_t size() const { return mSize; }
   
-  const T& front() const { return mFront->mData; } // read-only access to the first element
-  T& front() { return mFront->mData; } ; // writeable access to the first element.
+  const T& front() const { return mFront->Data; } // read-only access to the first element
+  T& front() { return mFront->Data; } ; // writeable access to the first element.
   
   // more advanced:
   void push_back(const T& element); // add at the end

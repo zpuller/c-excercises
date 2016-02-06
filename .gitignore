@@ -27,6 +27,7 @@ build_
 
 # Executables
 string_test
+list_test
 *.exe
 *.out
 *.app

@@ -14,8 +14,7 @@ class MyLinkedList
 public:
   // bare minimum:
   MyLinkedList() : mSize(0) {}
-  MyLinkedList(const MyLinkedList& other) :
-      mSize(other.size())
+  MyLinkedList(const MyLinkedList& other) : mSize(0)
   {
     auto ptr = other.mFront.get();
     while (ptr)
@@ -35,8 +34,11 @@ public:
   void pop_front() // removes element from the front
   {
     auto ptr = std::move(mFront);
-    mFront = std::move(ptr->Next);
-    mSize--;
+    if (ptr)
+    {
+      mFront = std::move(ptr->Next);
+      mSize--;
+    }
   }
   std::size_t size() const { return mSize; }
   

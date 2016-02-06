@@ -28,14 +28,14 @@ public:
   void push_front(const T& element) // adds element at the front
   {
     std::unique_ptr<Node<T> > node(new Node<T>{element});
-    node->Next = std::move<mFront>;
-    mFront = std::move<node>;
+    node->Next = std::move(mFront);
+    mFront = std::move(node);
     mSize++;
   }
   void pop_front() // removes element from the front
   {
-    auto ptr = std::move<mFront>;
-    mFront = std::move<ptr->Next>;
+    auto ptr = std::move(mFront);
+    mFront = std::move(ptr->Next);
     mSize--;
   }
   std::size_t size() const { return mSize; }

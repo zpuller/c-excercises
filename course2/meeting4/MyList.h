@@ -42,15 +42,66 @@ public:
   }
   std::size_t size() const { return mSize; }
   
-  const T& front() const { return mFront->Data; } // read-only access to the first element
-  T& front() { return mFront->Data; } ; // writeable access to the first element.
+  const T& front() const { if (!mFront) throw; return mFront->Data; } // read-only access to the first element
+  T& front() { if (!mFront) throw; return mFront->Data; } ; // writeable access to the first element.
   
   // more advanced:
-  void push_back(const T& element); // add at the end
-  void pop_back();
-  T& back();
-  const T& back() const; // access to the last element
-  
+  void push_back(const T& element) // add at the end
+  {
+    mSize++;
+    std::unique_ptr<Node<T> > node(new Node<T>{element});
+    if (!mFront)
+    {
+      mFront = std::move(node);
+      return;
+    }
+
+    auto ptr = mFront.get();
+    while (ptr->Next)
+      ptr = ptr->Next.get();
+
+    ptr->Next = std::move(node);
+  }
+  void pop_back()
+  {
+    if (!mFront)
+      return;
+
+    mSize--;
+    if (!mFront->Next)
+    {
+      auto ptr = std::move(mFront);
+      return;
+    }
+
+    auto ptr = mFront.get();
+    while (ptr->Next->Next)
+      ptr = ptr->Next.get();
+
+    auto uptr = std::move(ptr->Next);
+  }
+  T& back()
+  {
+    if (!mFront)
+      throw;
+
+    auto ptr = mFront.get();
+    while (ptr->Next)
+      ptr = ptr->Next.get();
+
+    return ptr->Data;
+  }
+  const T& back() const // access to the last element
+  {
+    if (!mFront)
+      throw;
+
+    auto ptr = mFront.get();
+    while (ptr->Next)
+      ptr = ptr->Next.get();
+
+    return *ptr;
+  }  
   // extra:
   // how would you provide access to all elements of the list?
  

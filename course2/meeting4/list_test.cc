@@ -27,4 +27,25 @@ int main()
   assert(list.size() == 0);
   list.pop_front();
   assert(list.size() == 0);
+
+  // push_back
+  list.push_back(1);
+  list.push_back(2);
+  assert(list.front() == 1);
+  assert(list.size() == 2);
+
+  // back
+  int& back = list.back();
+  assert(back == 2);
+  back = 3;
+  assert(list.back() == 3);
+
+  // pop_back
+  list.pop_back();
+  assert(list.front() == 1);
+  assert(list.size() == 1);
+  list.pop_back();
+  assert(list.size() == 0);
+  list.pop_back();
+  assert(list.size() == 0);
 }

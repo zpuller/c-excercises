@@ -9,9 +9,27 @@ struct Node
 };
 
 template<typename T>
+class ListIterator
+{
+public:
+  ListIterator(Node<T>* node) : mCurrent(node) { }
+  
+  T& operator*() { return mCurrent->Data; }
+  void operator++() { mCurrent = mCurrent->Next.get(); }
+  bool operator!=(const ListIterator& other) const
+  {
+    return mCurrent != other.mCurrent;
+  }
+
+private:
+  Node<T>* mCurrent = nullptr;
+};
+
+template<typename T>
 class MyLinkedList
 {
 public:
+using value_type = T;
   // bare minimum:
   MyLinkedList() : mSize(0) {}
   MyLinkedList(const MyLinkedList& other) : mSize(0)
@@ -104,6 +122,25 @@ public:
   }  
   // extra:
   // how would you provide access to all elements of the list?
+
+  // iterators
+  ListIterator<T> begin() const
+  {
+    return ListIterator<T>(mFront.get());
+  }
+
+  ListIterator<T> end() const
+  {
+    return ListIterator<T>(nullptr);
+  }
+
+  void clear() // clear list 
+  {
+    auto ptr = std::move(mFront);
+    mSize = 0;
+  }
+
+  const bool empty() const { return mSize == 0; }
  
 private:
   std::unique_ptr<Node<T> > mFront;
